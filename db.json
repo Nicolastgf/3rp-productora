@@ -1,0 +1,64 @@
+{
+    "personas": [
+        {
+            "productores":[{
+                "idPersona": 1,
+                "NombrePersona": "Juan",
+                "ApellidoPersona" : "Perez",
+                "DNI": 12345678,
+                "MailPersona": "43965856",
+                "TelefonoPersona": "3816598456",
+                "Ubicacion" : "Tucuman"},
+                {
+                "idPersona": 2,
+                "NombrePersona": "Marcela",
+                "ApellidoPersona" : "Perez",
+                "DNI": 12345678,
+                "MailPersona": "43965856",
+                "TelefonoPersona": "3816598456",
+                "Ubicacion" : "Rosario"}
+            ]
+            
+        },
+        {
+            "clientes":[{
+                "idPersona": 1,
+                "NombrePersona": "Emiliano",
+                "ApellidoPersona" : "Gonzalez",
+                "DNI": 345334345,
+                "MailPersona": "32423",
+                "TelefonoPersona": "38168456",
+                "Ubicacion" : "Tucuman"},
+                {
+                "idPersona": 2,
+                "NombrePersona": "Luis",
+                "ApellidoPersona" : "Perez",
+                "DNI": 12345678,
+                "MailPersona": "43965856",
+                "TelefonoPersona": "3816598456",
+                "Ubicacion" : "Rosario"}
+            ]
+        },
+        {
+            "transportes":[{
+                "idPersona": 1,
+                "NombrePersona": "Julio",
+                "ApellidoPersona" : "Rodriguez",
+                "DNI": 324324,
+                "MailPersona": "43965856",
+                "TelefonoPersona": "3816598456",
+                "Ubicacion" : "Tucuman"},
+                {
+                "idPersona": 2,
+                "NombrePersona": "Marcela",
+                "ApellidoPersona" : "Perez",
+                "DNI": 12345678,
+                "MailPersona": "43965856",
+                "TelefonoPersona": "3816598456",
+                "Ubicacion" : "Rosario"}
+            ]
+        }
+    ]
+    ,
+    "gastos":{}
+}

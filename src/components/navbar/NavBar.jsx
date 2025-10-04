@@ -20,26 +20,23 @@ function Navbar() {
                     onMouseEnter={() => setPersonasOpen(true)}
                     onMouseLeave={() => setPersonasOpen(false)}
                     >
-                    <NavLink 
-                        to="/personas" 
-                        className="dropdown-trigger"
-                    >
+                    <span className="dropdown-trigger">
                         Personas
-                    </NavLink>
+                    </span>
                     
                     {personasOpen && (
                         <div className="dropdown-menu">
-                        <NavLink to="/productores" className="dropdown-item">
-                            Productores
-                        </NavLink>
-                        <NavLink to="/clientes" className="dropdown-item">
-                            Clientes
-                        </NavLink>
-                        <NavLink to="/transportes" className="dropdown-item">
-                            Transportes
-                        </NavLink>
-                </div>
-            )}
+                            <NavLink to="/personas/productores" className="dropdown-item">
+                                Productores
+                            </NavLink>
+                            <NavLink to="/personas/clientes" className="dropdown-item">
+                                Clientes
+                            </NavLink>
+                            <NavLink to="/personas/transportes" className="dropdown-item">
+                                Transportes
+                            </NavLink>
+                        </div>
+                    )}
             </div>
                 <NavLink to="/gastos">Gastos</NavLink>
                 <NavLink to="/datos">Datos</NavLink>

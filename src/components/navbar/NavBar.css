@@ -78,14 +78,21 @@ body {
 .dropdown-container {
   position: relative;
   display: inline-block;
+    position: relative;
+  padding-bottom: 5px;
 }
 
 .dropdown-trigger {
-  display: flex;
-  align-items: center;
-  position: relative;
+    color: #fff;
+    font-weight: 600;
+    position: relative;
+    transition: color 0.2s;
+    cursor: pointer;
 }
 
+.dropdown-trigger:hover {
+    color: #00c4d8;
+}
 .dropdown-trigger::after {
   font-size: 10px;
   margin-left: 5px;
@@ -103,8 +110,11 @@ body {
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
   padding: 8px 0;
   z-index: 1001;
-  margin-top: 10px;
+
   border: 1px solid #36415F;
+  top: calc(100% + 5px); /* 5px más abajo */
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .dropdown-item {

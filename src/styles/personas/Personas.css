@@ -1,0 +1,57 @@
+.personas-page {
+    margin-top: 100px; /* espacio por navbar fijo */
+    padding: 20px;
+    color: white;
+    font-family: 'Poppins', sans-serif;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;  /* centra el contenido */
+}
+
+.personas-header h1 {
+    color: #00c4d8;
+    font-size: 28px;
+    font-weight: 700;
+    margin: 0;
+    text-align: center;
+}
+
+.botones-agreyexpo{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin: 0;
+}
+
+.btn-agregar{
+    background-color: #3cb043;
+    border: none;
+    border-radius: 20px;
+    padding: 8px 20px;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.3s ease;
+    margin-bottom: 10px;
+    display: inline-block; /* importante para que respete el padding */
+    white-space: nowrap; /* evita que el texto se divida en varias líneas */
+}
+
+.btn-view{
+    background-color: #3F51B5;
+  border: none;
+  border-radius: 8px;
+  padding: 6px 14px;
+  color: white;
+  font-weight: 400;
+  cursor: pointer;
+    display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn-view:hover{
+    background-color: #303F9F;
+}

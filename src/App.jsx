@@ -17,8 +17,9 @@ function App() {
 
         {/* Otras rutas */}
         <Route path="/operacion" element={<Operacion />} />
-        <Route path="/personas" element={<Personas />} />
+        <Route path="/personas/:tipo" element={<Personas />} />
         <Route path="/gastos" element={<Gastos />} />
+
 
         {/* Ruta para 404 */}
         <Route path="*" element={<h1>404 - Página no encontrada</h1>} />
