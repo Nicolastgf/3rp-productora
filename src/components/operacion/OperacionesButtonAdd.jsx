@@ -3,8 +3,11 @@ import "../../styles/operaciones/Operaciones.css";
 
 const OperacionButtonAdd = () => {
     return (
-        <div className="operaciones-add">
-            <button className="btn-add">+ AGREGAR OPERACION</button>
+        
+        <div className='botones-agreyexpo' >
+        <button className="btn-agregar">
+          + AGREGAR OPERACION
+        </button>
         </div>
     );
 };

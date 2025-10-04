@@ -4,7 +4,7 @@ import "../../styles/operaciones/Operaciones.css";
 const OperacionFilter = () => {
     return (
         <div className="operaciones-filter">
-            <h4>SELECCIONAR FECHA</h4>
+            <h4 style={{margin:"0 0 15px 0"}}>SELECCIONAR FECHA</h4>
             <div className="filter-row">
                 <div className="filter-group">
                     <label>Mes</label>
@@ -29,14 +29,14 @@ const OperacionFilter = () => {
                     <label>Año</label>
                     <select>
                         <option>Seleccionar año</option>
-                        <option>2024</option>
-                        <option>2025</option>
-                        <option>2027</option>
-                        <option>2028</option>
-                        <option>2029</option>
-                        <option>2030</option>
-                        <option>2031</option>
-                        <option>2032</option>
+                        <option value="2024">2018</option>
+                        <option value="2025">2019</option>
+                        <option value="2026">2020</option>
+                        <option value="2027">2021</option>
+                        <option value="2028">2022</option>
+                        <option value="2029">2023</option>
+                        <option value="2030">2024</option>
+                        <option value="2031">2025</option>
                     </select>
                 </div>
 
