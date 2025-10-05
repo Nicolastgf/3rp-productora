@@ -18,7 +18,7 @@ function App() {
         {/* Otras rutas */}
         <Route path="/operacion" element={<Operacion />} />
         <Route path="/personas/:tipo" element={<Personas />} />
-        <Route path="/gastos" element={<Gastos />} />
+        <Route path="/gastos" element={<Gastos />} /> 
 
 
         {/* Ruta para 404 */}

@@ -1,5 +1,6 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
 const PersonasBody = ({ tipo }) => {
@@ -7,6 +8,13 @@ const PersonasBody = ({ tipo }) => {
     const [clientes, setClientes] = useState([]);
     const [transportes, setTransportistas] = useState([]);
     const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
+
+
+    const handleVerPersona = ()=>{
+        // navigate(`/persona/${tipo}/ver-persona`);
+        console.log("ver persona")
+    }
     
     const getPersonas = async () => {
         try {
@@ -19,9 +27,6 @@ const PersonasBody = ({ tipo }) => {
             const clientesData = resp.find(item => item.clientes)?.clientes || [];
             const transportistasData = resp.find(item => item.transportes)?.transportes || [];
             
-            console.log("Productores data:", productoresData);
-            console.log("Clientes data:", clientesData);
-            console.log("Transportistas data:", transportistasData);
             
             setProductores(productoresData);
             setClientes(clientesData);
@@ -75,7 +80,7 @@ const PersonasBody = ({ tipo }) => {
                             <td>{persona.Ubicacion}</td>
                             <td>
                                 <div className="td-acciones">
-                                    <button className="btn-view">
+                                    <button className="btn-view" onClick={handleVerPersona}>
                                         <span class="material-symbols-outlined">visibility</span>
                                     </button>
                                     <button className="btn-edit">
