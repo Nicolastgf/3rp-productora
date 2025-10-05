@@ -35,8 +35,8 @@
     font-size: 14px;
     transition: background 0.3s ease;
     margin-bottom: 10px;
-    display: inline-block; /* importante para que respete el padding */
-    white-space: nowrap; /* evita que el texto se divida en varias líneas */
+    display: inline-block; 
+    white-space: nowrap; 
 }
 
 .btn-view{
@@ -54,4 +54,35 @@
 
 .btn-view:hover{
     background-color: #303F9F;
+}
+
+.input-buscar{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.input-buscari{
+    background-color: #36415F;
+    border: none;
+    border-radius: 8px;
+    padding: 6px 14px;
+    color: white;
+    font-weight: 400;
+    width: 250px;
+    margin-right: 10px;
+}
+
+.btn-buscar{
+    background-color: #3F51B5;
+  border: none;
+  border-radius: 8px;
+  padding: 6px 14px;
+  color: white;
+  font-weight: 400;
+  cursor: pointer;
+    display: flex;
+  justify-content: center;
+  align-items: center;
 }

@@ -5,8 +5,8 @@ export const configPersona = {
         { name: "ApellidoPersona", label: "Apellido", type: "text", required: true },
         { name: "DNI", label: "DNI", type: "text", required: true },
         { name: "MailPersona", label: "Mail", type: "email" },
-        { name: "telefono", label: "Teléfono", type: "text" },
-        { name: "direccion", label: "Dirección", type: "text" },
+        { name: "TelefonoPersona", label: "Teléfono", type: "tel" },
+        { name: "Ubicacion", label: "Ubicación", type: "text" },
     ],
 };
 
