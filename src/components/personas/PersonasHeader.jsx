@@ -1,13 +1,17 @@
-import React from 'react'
+import React from "react";
 
-const PersonasHeader = ({ tipo }) => { // Recibe tipo como prop
-    
+const PersonasHeader = ({ tipo }) => {
+    // Recibe tipo como prop desde useParams()
     const getTitle = () => {
-        switch(tipo) {
-            case 'productores': return 'PRODUCTORES';
-            case 'clientes': return 'CLIENTES';
-            case 'transportes': return 'TRANSPORTES';
-            default: return null; 
+        switch (tipo) {
+            case "productor":
+                return "PRODUCTORES";
+            case "cliente":
+                return "CLIENTES";
+            case "transportista":
+                return "TRANSPORTISTAS";
+            default:
+                return "PERSONAS";
         }
     };
 
@@ -16,6 +20,6 @@ const PersonasHeader = ({ tipo }) => { // Recibe tipo como prop
             <h1>{getTitle()}</h1>
         </div>
     );
-}
+};
 
 export default PersonasHeader;

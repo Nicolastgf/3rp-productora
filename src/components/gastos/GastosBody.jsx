@@ -1,7 +1,7 @@
-import {use, useState} from "react"
+import { useState} from "react"
 import "../../styles/gastos/Gastos.css"
 
-const GastosBody = ({ onVolver, onBuscar, mostrarTabla }) => {
+const GastosBody = ({ onBuscar, mostrarTabla }) => {
 
 
   const [mes, setMes] = useState("");
