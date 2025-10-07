@@ -21,3 +21,9 @@ export const traerPersonasPorTipo = async (tipo) => {
     const response = await axios.get(`${PERSONAS_URL}/${tipoConfigurado}`);
     return response.data;
 };
+
+//actualizar persona
+export const actualizarPersona = async (idPersona, data) => {
+    const response = await axios.put(`${PERSONAS_URL}/actualizar/${idPersona}`, data);
+    return response.data;
+};

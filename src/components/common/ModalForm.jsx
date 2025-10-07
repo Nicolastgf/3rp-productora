@@ -1,11 +1,26 @@
-import React, { useState } from "react";
-import "../../styles/modal/Modal.css"; // reusamos el mismo estilo visual
+import React, { useState, useEffect } from "react";
+import "../../styles/modal/Modal.css";
 
-const ModalForm = ({ show, config, onClose, onSubmit }) => {
-  // ✅ Los hooks siempre al inicio
+const ModalForm = ({ show, config, onClose, onSubmit, datosIniciales = {} }) => {
+
   const [formData, setFormData] = useState({});
 
-  // 🔸 El condicional va después de los hooks
+ 
+  useEffect(() => {
+    if (show) {
+      console.log("recibió datos iniciales:", datosIniciales);
+      setFormData(datosIniciales);
+    }
+  }, [show, datosIniciales]); // Se ejecuta cuando show o datosIniciales cambian
+
+  // resetear form cuando se cierra el modal
+  useEffect(() => {
+    if (!show) {
+      setFormData({});
+    }
+  }, [show]);
+
+
   if (!show) return null;
 
   const handleChange = (e) => {
@@ -15,6 +30,7 @@ const ModalForm = ({ show, config, onClose, onSubmit }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log("📤 Enviando datos del formulario:", formData);
     onSubmit(formData);
   };
 
@@ -32,7 +48,7 @@ const ModalForm = ({ show, config, onClose, onSubmit }) => {
                 <input
                   type={campo.type}
                   name={campo.name}
-                  value={formData[campo.name] || ""} // 
+                  value={formData[campo.name] || ""} 
                   onChange={handleChange}
                   required={campo.required}
                 />
@@ -40,7 +56,7 @@ const ModalForm = ({ show, config, onClose, onSubmit }) => {
               {campo.type === "select" && (
                 <select
                   name={campo.name}
-                  value={formData[campo.name] || ""} // 
+                  value={formData[campo.name] || ""} 
                   onChange={handleChange}
                   required={campo.required}
                 >
@@ -62,7 +78,7 @@ const ModalForm = ({ show, config, onClose, onSubmit }) => {
               Cancelar
             </button>
             <button type="submit" className="btn-save">
-              💾 Guardar
+              Guardar
             </button>
           </div>
         </form>

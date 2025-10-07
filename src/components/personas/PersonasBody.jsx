@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
-import { traerPersonasPorTipo } from "../../services/personasService"; // ✅ Importar servicio
+import { actualizarPersona, traerPersonasPorTipo } from "../../services/personasService";
+import ModalForm from "../common/ModalForm";
+import { configPersona } from "../../config/FormConfigs";
 import "../../styles/personas/Personas.css";
 
 const PersonasBody = ({ tipo }) => {
@@ -7,13 +9,14 @@ const PersonasBody = ({ tipo }) => {
   const [personasOriginales, setPersonasOriginales] = useState([]); 
   const [loading, setLoading] = useState(true);
   const [valor, setValor] = useState("");
+  const [showEditModal, setShowEditModal] = useState(false); 
+  const [personaEditando, setPersonaEditando] = useState(null);
 
   useEffect(() => {
     const buscarPersonas = async () => {
       try {
         setLoading(true);
         
-        // ✅ Usar el servicio
         const data = await traerPersonasPorTipo(tipo);
         console.log("Personas recibidas:", data);
         
@@ -29,6 +32,69 @@ const PersonasBody = ({ tipo }) => {
 
     buscarPersonas();
   }, [tipo]);
+
+   const handleEditar = (persona) => {
+    console.log("Editando persona:", persona);
+    setPersonaEditando(persona);
+    setShowEditModal(true);
+  };
+
+    const handleGuardarEdicion = async (dataEditada) => {
+    try {
+      if (!personaEditando) {
+        alert("Error: No hay persona seleccionada para editar");
+        return;
+      }
+
+      console.log("Actualizando persona:", {
+        id: personaEditando.idPersona,
+        datos: dataEditada
+      });
+
+      //datos para enviar al backend
+      const datosActualizacion = {
+        TipoPersona: tipo.charAt(0).toUpperCase() + tipo.slice(1).toLowerCase(),
+        NombrePersona: dataEditada.NombrePersona,
+        ApellidoPersona: dataEditada.ApellidoPersona,
+        DNI: dataEditada.DNI,
+        MailPersona: dataEditada.MailPersona,
+        TelefonoPersona: dataEditada.TelefonoPersona,
+        Ubicacion: dataEditada.Ubicacion
+      };
+
+      await actualizarPersona(personaEditando.idPersona, datosActualizacion);
+      
+      const personasActualizadas = personas.map(persona =>
+        persona.idPersona === personaEditando.idPersona
+          ? { ...persona, ...dataEditada }
+          : persona
+      );
+      
+      setPersonas(personasActualizadas);
+      setPersonasOriginales(personasActualizadas);
+
+      alert("Persona actualizada correctamente");
+      setShowEditModal(false);
+      setPersonaEditando(null);
+    } catch (error) {
+      console.error("Error al actualizar persona:", error);
+      alert("Error al actualizar la persona");
+    }
+  };
+
+    const getDatosIniciales = () => {
+    if (!personaEditando) return {};
+    
+    return {
+      NombrePersona: personaEditando.NombrePersona,
+      ApellidoPersona: personaEditando.ApellidoPersona,
+      DNI: personaEditando.DNI,
+      MailPersona: personaEditando.MailPersona,
+      TelefonoPersona: personaEditando.TelefonoPersona,
+      Ubicacion: personaEditando.Ubicacion
+    };
+  };
+  
 
   const handleBuscar = () => {
     console.log("Buscar:", valor);
@@ -148,7 +214,7 @@ const PersonasBody = ({ tipo }) => {
                           visibility
                         </span> 
                       </button>
-                      <button className="btn-edit">
+                      <button className="btn-edit" onClick={() => handleEditar(persona)}>
                         <span className="material-symbols-outlined">
                           edit
                         </span> 
@@ -166,6 +232,20 @@ const PersonasBody = ({ tipo }) => {
           </table>
         </>
       )}
+
+      <ModalForm
+        show={showEditModal}
+        config={{ 
+          ...configPersona, 
+          titulo: `EDITAR ${tipo?.toUpperCase()}`,
+        }}
+        datosIniciales={getDatosIniciales()} // pasar datos de la persona
+        onClose={() => {
+          setShowEditModal(false);
+          setPersonaEditando(null);
+        }}
+        onSubmit={handleGuardarEdicion}
+      />
     </div>
   );
 };
