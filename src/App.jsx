@@ -6,6 +6,7 @@ import Home from "./pages/HamePage";
 import Operacion from "./pages/operacion/ListOperacionPage";
 import Personas from "./pages/personas/ListPersonsPage";
 import Gastos from "./pages/gastos/ListGastosPage";
+import CuentaCorrientePage from "./pages/personas/CuentaCorrientePage";
 
 function App() {
   return (
@@ -19,6 +20,8 @@ function App() {
         <Route path="/operacion" element={<Operacion />} />
         <Route path="/personas/:tipo" element={<Personas />} />
         <Route path="/gastos" element={<Gastos />} /> 
+        <Route path="/cuentacorriente/:tipo/:idPersona" element={<CuentaCorrientePage/>} /> 
+
 
 
         {/* Ruta para 404 */}

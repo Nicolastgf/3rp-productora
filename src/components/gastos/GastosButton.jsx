@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import ModalForm from "../common/ModalForm"; // ✅ Modal genérico reutilizable
-import { configGastos } from "../../config/FormConfigs"; // ✅ Config JSON de gastos
-import "../../styles/gastos/Gastos.css"; // tu css (ajustalo al nombre que uses)
+import ModalForm from "../common/ModalForm"; // Modal genérico reutilizable
+import { configGastos } from "../../config/FormConfigs";
+import "../../styles/gastos/Gastos.css"; 
 
 const GastosButton = ({ mostrarTabla, onVolver }) => {
   const [showModal, setShowModal] = useState(false); // controla visibilidad del modal
@@ -50,7 +50,7 @@ const GastosButton = ({ mostrarTabla, onVolver }) => {
             + AGREGAR GASTO
           </button>
 
-          {/* Exportar PDF (solo visible si hay tabla) */}
+          {/* Exportar PDF */}
           {mostrarTabla && (
             <div className="btn-volver-container">
               <button className="btn-exportar" onClick={onVolver}>

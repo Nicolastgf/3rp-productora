@@ -36,6 +36,35 @@
 .btn-add:hover {
     background-color: #2e8b35;
 }
+
+.btnagregar{
+    background-color: #3cb043;
+    border: none;
+    border-radius: 20px;
+    padding: 8px 20px;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.3s ease;
+}
+
+.btn-history{
+background-color: #01C4E7;
+  border: none;
+  border-radius: 8px;
+  padding: 6px 14px;
+  color: white;
+  font-weight: 400;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+.btn-history:hover{
+    background-color: #019BB3;
+}
 /* Filtro */
 .operaciones-filter {
     background-color: #2c3652;
@@ -100,6 +129,11 @@
 
 .btn-search:hover {
     background-color: #009fb0;
+}
+
+.tabla-container {
+  width: 85%;
+  color: white;
 }
 
 /* 📱 Responsive solo en móviles */
