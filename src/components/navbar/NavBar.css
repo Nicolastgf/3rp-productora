@@ -120,8 +120,23 @@ body {
         opacity: 0;
         transform: translate(-50%, -5px);
     }
+
     to {
         opacity: 1;
         transform: translate(-50%, 0);
     }
+}
+
+.logout-btn {
+    background: transparent;
+    border: none;
+    color: #e63946;
+    font-weight: 600;
+    cursor: pointer;
+    margin-left: 15px;
+    transition: color 0.3s;
+}
+
+.logout-btn:hover {
+    color: #a4161a;
 }
