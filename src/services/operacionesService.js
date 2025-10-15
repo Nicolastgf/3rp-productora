@@ -19,19 +19,19 @@ export const traerOperacionesFiltradas = async (mes, anio) => {
     }
 };
 
-// 🔹 Traer operación completa por ID (con todos sus movimientos)
+//  Traer operación completa por ID (con todos sus movimientos)
 export const traerOperacionCompleta = async (idOperacion) => {
     const response = await axios.get(`${OPERACIONES_URL}/${idOperacion}/completa`);
     return response.data;
 };
 
-// 🔹 Traer todas las operaciones
+// Traer todas las operaciones
 export const traerOperaciones = async () => {
     const response = await axios.get(OPERACIONES_URL);
     return response.data;
 };
 
-// 🔹 Crear operación
+// Crear operación
 export const crearOperacion = async (data) => {
     const response = await axios.post(`${OPERACIONES_URL}/crear`, data);
     return response.data;

@@ -10,6 +10,7 @@ const OperacionesFilter = ({
   onBuscar,
   mostrarTabla,
   modalAbierto,
+  onMostrarDetalleChange 
 }) => {
   const [mes, setMes] = useState("");
   const [anio, setAnio] = useState("");
@@ -20,8 +21,10 @@ const OperacionesFilter = ({
   const [valorBusqueda, setValorBusqueda] = useState("");
   const [mostrarDetalle, setMostrarDetalle] = useState(false);
   const [cargandoDetalle, setCargandoDetalle] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
-  // 🔍 BUSCAR OPERACIONES POR MES/AÑO (CORREGIDO)
+
+  // BUSCAR OPERACIONES POR MES/AÑO 
   const handleBuscarFiltro = async () => {
     if (mes && anio) {
       setLoading(true);
@@ -41,7 +44,7 @@ const OperacionesFilter = ({
     }
   };
 
-  // 🔍 BUSCAR EN LA LISTA ACTUAL (input de búsqueda)
+  // BUSCAR EN LA LISTA ACTUAL (input de búsqueda)
   const handleBuscarInput = () => {
     if (valorBusqueda === "") {
       // Si está vacío, mostrar todas las operaciones
@@ -75,7 +78,7 @@ const OperacionesFilter = ({
     }
   };
 
-  // 🔍 BUSCAR AL ESCRIBIR (búsqueda en tiempo real)
+  // BUSCAR AL ESCRIBIR (búsqueda en tiempo real)
   const handleChange = (e) => {
     const nuevoValor = e.target.value;
     setValorBusqueda(nuevoValor);
@@ -106,7 +109,7 @@ const OperacionesFilter = ({
     }
   };
 
-  // 🔍 BUSCAR AL PRESIONAR ENTER
+  //  BUSCAR AL PRESIONAR ENTER
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
       handleBuscarInput();
@@ -137,7 +140,8 @@ const OperacionesFilter = ({
             totalTransportes: operacionExistente.transportes?.length || 0,
           },
         });
-        setMostrarDetalle(true);
+        setMostrarDetalle(true)
+        onMostrarDetalleChange(true);;
       } else {
         const data = await traerOperacionCompleta(idOperacion);
         setOperacionDetalle(data);
@@ -151,10 +155,45 @@ const OperacionesFilter = ({
     }
   };
 
+  // seguir una vez actualizado operaciones
+  // const handleCrearCliente = async (data) => {
+  //   try {
+  //     const operacionCliente = {
+
+  //       IdOperacion: data.IdOperacion,
+  //     IdPersona: data.IdPersona,
+  //     IdProducto: data.IdProducto,
+  //     PrecioUnitario: data.PrecioUnitario,
+  //     ToneladasCompradas: data.ToneladasCompradas,
+  //     TotalCompra: data.TotalCompra,
+  //     FechaCompra: data.FechaCompra,
+  //     Descripcion: data.Descripcion,
+  //     idUsuario: data.idUsuario || 1, // O obtenerlo del contexto/auth
+  //     };
+
+  //     console.log("Enviando datos al backend:", operacionCliente);
+  //     const nuevaOperacion = await crearOperacion(operacionCliente);
+  //     console.log("Operación creada:", nuevaOperacion);
+
+  //     alert("Operación creada correctamente");
+  //     setShowModal(false);
+      
+  //   } catch (error) {
+  //     console.error("Error al guardar operación:", error);
+  //     if (error.response?.data?.message) {
+  //       alert(`Error: ${error.response.data.message}`);
+  //     } else {
+  //       alert("Error al crear la operación");
+  //     }
+  //   }
+  // };
+
+
   // volver a la vista general
   const handleVolver = () => {
     setMostrarDetalle(false);
     setOperacionDetalle(null);
+    onMostrarDetalleChange(false);
   };
 
   // Función para formatear fecha
@@ -348,214 +387,201 @@ const OperacionesFilter = ({
         </div>
       )}
 
-      {/*dETALLE DE OPERACIÓN */}
-      {mostrarDetalle && operacionDetalle && (
-        <div className="tabla-container">
-          <div className="tabla-header">
-            <button className="btn-volver" onClick={handleVolver}>
-              <span className="material-symbols-outlined">arrow_back</span>
-              VOLVER A OPERACIONES
-            </button>
-          </div>
-          {/* Tabla de Compras */}
-          {operacionDetalle.movimientos.compras.length > 0 && (
-            <div className="tabla-seccion">
-              <div style={{display:"flex", justifyContent:"space-between", alignItems:"center"}}>
-                <h5 style={{color:"#0097B2", fontSize:"medium"}}>PRODUCTOR</h5>
-                <button
-                  className="btnagregar"
-                  onClick={() => setShowModal(true)}
-                >
-                  + AGREGAR
-                </button>
-              </div>
+      {/* DETALLE DE OPERACIÓN */}
+{mostrarDetalle && operacionDetalle && (
+  <div className="tabla-container">
+    <div className="tabla-header">
+      <button className="btn-volver" onClick={handleVolver}>
+        <span className="material-symbols-outlined">arrow_back</span>
+        VOLVER A OPERACIONES
+      </button>
+      <h4>Informacion de la Operacion #{operacionDetalle.operacion.idOperacion}</h4>
+      <p><strong>Descripción:</strong> {operacionDetalle.operacion.Descripcion || "Sin descripción"}</p>
+    </div>
 
-              <table className="tabla-gastos">
-                <thead>
-                  <tr>
-                    <th>Fecha de Carga</th>
-                    <th>Productor</th>
-                    <th>Precio de Compra</th>
-                    <th>Cargas TN.</th>
-                    <th>Total $Pesos</th>
-                    <th>CP N°</th>
-                    <th>Accion</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {operacionDetalle.movimientos.compras.map((compra) => (
-                    <tr key={compra.idMovCompra} className="fila-tabla">
-                      <td>
-                        {formatearFecha(
-                          operacionDetalle.operacion.FechaRegistro
-                        )}
-                      </td>
-                      <td>
-                        {compra.ProductorNombre && compra.ProductorApellido
-                          ? `${compra.ProductorNombre} ${compra.ProductorApellido}`
-                          : "No especificado"}
-                      </td>
-                      <td>{formatearMoneda(compra.PrecioUnitario)}</td>
-                      <td>{compra.ToneladasCompradas}</td>
+    {/* Tabla de Compras - SIEMPRE VISIBLE */}
+    <div className="tabla-seccion">
+      <div style={{display:"flex", justifyContent:"space-between", alignItems:"center"}}>
+        <h5 style={{color:"#0097B2", fontSize:"medium"}}>PRODUCTOR</h5>
+        <button className="btnagregar" onClick={() => setShowModal(true)}>
+          + AGREGAR
+        </button>
+      </div>
 
-                      <td>{formatearMoneda(compra.TotalCompra)}</td>
-                      <td>{compra.CPNumero || "No especificado"}</td>
-                      <td>
-                        <div className="td-acciones">
-                          <button className="btn-edit">
-                            <span className="material-symbols-outlined">
-                              edit
-                            </span>
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+      <table className="tabla-gastos">
+        <thead>
+          <tr>
+            <th>Fecha de Carga</th>
+            <th>Productor</th>
+            <th>Precio de Compra</th>
+            <th>Cargas TN.</th>
+            <th>Total $Pesos</th>
+            <th>CP N°</th>
+            <th>Accion</th>
+          </tr>
+        </thead>
+        <tbody>
+          {operacionDetalle.movimientos.compras.length > 0 ? (
+            operacionDetalle.movimientos.compras.map((compra) => (
+              <tr key={compra.idMovCompra} className="fila-tabla">
+                <td>{formatearFecha(operacionDetalle.operacion.FechaRegistro)}</td>
+                <td>
+                  {compra.ProductorNombre && compra.ProductorApellido
+                    ? `${compra.ProductorNombre} ${compra.ProductorApellido}`
+                    : "No especificado"}
+                </td>
+                <td>{formatearMoneda(compra.PrecioUnitario)}</td>
+                <td>{compra.ToneladasCompradas}</td>
+                <td>{formatearMoneda(compra.TotalCompra)}</td>
+                <td>{compra.CPNumero || "No especificado"}</td>
+                <td>
+                  <div className="td-acciones">
+                    <button className="btn-edit">
+                      <span className="material-symbols-outlined">edit</span>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan="7" style={{ textAlign: "center", color: "#999", fontStyle: "italic" }}>
+                No hay compras registradas. Haz clic en "AGREGAR" para agregar una.
+              </td>
+            </tr>
           )}
+        </tbody>
+      </table>
+    </div>
 
-          <hr className="linea-separadora" />
+    <hr className="linea-separadora" />
 
-          {/* Tabla de Ventas */}
-          {operacionDetalle.movimientos.ventas.length > 0 && (
-            <div className="tabla-seccion">
-              <div style={{display:"flex", justifyContent:"space-between", alignItems:"center"}}>
-                <h5 style={{color:"#0097B2", fontSize:"medium"}}>CLIENTE</h5>
-                <button
-                  className="btnagregar"
-                  onClick={() => setShowModal(true)}
-                >
-                  + AGREGAR
-                </button>
-              </div>
-              <table className="tabla-gastos">
-                <thead>
-                  <tr>
-                    <th>Fecha de Venta</th>
-                    <th>Cliente</th>
-                    <th>Precio de Venta</th>
-                    <th>Descargas TN.</th>
-                    <th>Total $Pesos</th>
-                    <th>Accion</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {operacionDetalle.movimientos.ventas.map((venta) => (
-                    <tr key={venta.idMovVenta} className="fila-tabla">
-                      <td>{formatearFecha(venta.FechaVenta)}</td>
-                      <td>
-                        {venta.ClienteNombre && venta.ClienteApellido
-                          ? `${venta.ClienteNombre} ${venta.ClienteApellido}`
-                          : "No especificado"}
-                      </td>
-                      <td>{formatearMoneda(venta.PrecioUnitario)}</td>
-                      <td>{venta.ToneladasVendidas}</td>
-
-                      <td>{formatearMoneda(venta.TotalVenta)}</td>
-                      <td>
-                        <div className="td-acciones">
-                          <button className="btn-edit">
-                            <span className="material-symbols-outlined">
-                              edit
-                            </span>
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+    {/* Tabla de Ventas - SIEMPRE VISIBLE */}
+    <div className="tabla-seccion">
+      <div style={{display:"flex", justifyContent:"space-between", alignItems:"center"}}>
+        <h5 style={{color:"#0097B2", fontSize:"medium"}}>CLIENTE</h5>
+        <button className="btnagregar" onClick={() => setShowModal(true)}>
+          + AGREGAR
+        </button>
+      </div>
+      <table className="tabla-gastos">
+        <thead>
+          <tr>
+            <th>Fecha de Venta</th>
+            <th>Cliente</th>
+            <th>Precio de Venta</th>
+            <th>Descargas TN.</th>
+            <th>Total $Pesos</th>
+            <th>Accion</th>
+          </tr>
+        </thead>
+        <tbody>
+          {operacionDetalle.movimientos.ventas.length > 0 ? (
+            operacionDetalle.movimientos.ventas.map((venta) => (
+              <tr key={venta.idMovVenta} className="fila-tabla">
+                <td>{formatearFecha(venta.FechaVenta)}</td>
+                <td>
+                  {venta.ClienteNombre && venta.ClienteApellido
+                    ? `${venta.ClienteNombre} ${venta.ClienteApellido}`
+                    : "No especificado"}
+                </td>
+                <td>{formatearMoneda(venta.PrecioUnitario)}</td>
+                <td>{venta.ToneladasVendidas}</td>
+                <td>{formatearMoneda(venta.TotalVenta)}</td>
+                <td>
+                  <div className="td-acciones">
+                    <button className="btn-edit">
+                      <span className="material-symbols-outlined">edit</span>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan="6" style={{ textAlign: "center", color: "#999", fontStyle: "italic" }}>
+                No hay ventas registradas. Haz clic en "AGREGAR" para agregar una.
+              </td>
+            </tr>
           )}
+        </tbody>
+      </table>
+    </div>
 
-          <hr className="linea-separadora" />
+    <hr className="linea-separadora" />
 
-          {/* Tabla de Transportes */}
-          {operacionDetalle.movimientos.transportes.length > 0 && (
-            <div className="tabla-seccion">
-                <div style={{display:"flex", justifyContent:"space-between", alignItems:"center"}}>
-                <h5 style={{color:"#0097B2", fontSize:"medium"}}>TRANSPORTE</h5>
-                <button
-                  className="btnagregar"
-                  onClick={() => setShowModal(true)}
-                >
-                  + AGREGAR
-                </button>
-              </div>
-              <table className="tabla-gastos">
-                <thead>
-                  <tr>
-                    <th>Fecha de Salida</th>
-                    <th>Transportista</th>
-                    <th>Dif TN.</th>
-                    <th>Origen</th>
-                    <th>Destino</th>
-                    <th>Descargas TN.</th>
-                    <th>Km.</th>
-                    <th>Precio por Km.</th>
-                    <th>Chofer</th>
-                    <th>Flete Total</th>
-                    <th>Accion</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {operacionDetalle.movimientos.transportes.map(
-                    (transporte) => (
-                      <tr
-                        key={transporte.idMovTransporte}
-                        className="fila-tabla"
-                      >
-                        <td>{formatearFecha(transporte.FechaTransporte)}</td>
-                        <td>
-                          {transporte.TransportistaNombre &&
-                          transporte.TransportistaApellido
-                            ? `${transporte.TransportistaNombre} ${transporte.TransportistaApellido}`
-                            : "No especificado"}
-                        </td>
-                        <td>
-                          {(
-                            (operacionDetalle.movimientos.compras?.[0]
-                              ?.ToneladasCompradas || 0) -
-                            (operacionDetalle.movimientos.ventas?.[0]
-                              ?.ToneladasVendidas || 0)
-                          ).toFixed(2)}
-                        </td>
-                        <td>{transporte.Origen}</td>
-                        <td>{transporte.Destino}</td>
-                        {/* VER PARA Q SE PEUDA EDITAR Y TOME OTRO VALOR X EL INPUT */}
-                        <td>
-                          {operacionDetalle.movimientos.ventas?.[0]
-                            ?.ToneladasVendidas || 0}
-                        </td>
-                        <td>{transporte.Kilometros}</td>
-                        <td>{formatearMoneda(transporte.PrecioXKm)}</td>
-                        <td>{transporte.NombreChofer}</td>
-                        <td>
-                          {formatearMoneda(
-                            (operacionDetalle.movimientos.ventas?.[0]
-                              ?.ToneladasVendidas || 0) * transporte.PrecioXKm
-                          )}
-                        </td>
-                        <td>
-                          <div className="td-acciones">
-                            <button className="btn-edit">
-                              <span className="material-symbols-outlined">
-                                edit
-                              </span>
-                            </button>
-                          </div>
-                        </td>
-                      </tr>
-                    )
+    {/* Tabla de Transportes - SIEMPRE VISIBLE */}
+    <div className="tabla-seccion">
+      <div style={{display:"flex", justifyContent:"space-between", alignItems:"center"}}>
+        <h5 style={{color:"#0097B2", fontSize:"medium"}}>TRANSPORTE</h5>
+        <button className="btnagregar" onClick={() => setShowModal(true)}>
+          + AGREGAR
+        </button>
+      </div>
+      <table className="tabla-gastos">
+        <thead>
+          <tr>
+            <th>Fecha de Salida</th>
+            <th>Transportista</th>
+            <th>Dif TN.</th>
+            <th>Origen</th>
+            <th>Destino</th>
+            <th>Descargas TN.</th>
+            <th>Km.</th>
+            <th>Precio por Km.</th>
+            <th>Chofer</th>
+            <th>Flete Total</th>
+            <th>Accion</th>
+          </tr>
+        </thead>
+        <tbody>
+          {operacionDetalle.movimientos.transportes.length > 0 ? (
+            operacionDetalle.movimientos.transportes.map((transporte) => (
+              <tr key={transporte.idMovTransporte} className="fila-tabla">
+                <td>{formatearFecha(transporte.FechaTransporte)}</td>
+                <td>
+                  {transporte.TransportistaNombre && transporte.TransportistaApellido
+                    ? `${transporte.TransportistaNombre} ${transporte.TransportistaApellido}`
+                    : "No especificado"}
+                </td>
+                <td>
+                  {(
+                    (operacionDetalle.movimientos.compras?.[0]?.ToneladasCompradas || 0) -
+                    (operacionDetalle.movimientos.ventas?.[0]?.ToneladasVendidas || 0)
+                  ).toFixed(2)}
+                </td>
+                <td>{transporte.Origen}</td>
+                <td>{transporte.Destino}</td>
+                <td>{operacionDetalle.movimientos.ventas?.[0]?.ToneladasVendidas || 0}</td>
+                <td>{transporte.Kilometros}</td>
+                <td>{formatearMoneda(transporte.PrecioXKm)}</td>
+                <td>{transporte.NombreChofer}</td>
+                <td>
+                  {formatearMoneda(
+                    (operacionDetalle.movimientos.ventas?.[0]?.ToneladasVendidas || 0) * transporte.PrecioXKm
                   )}
-                </tbody>
-              </table>
-            </div>
+                </td>
+                <td>
+                  <div className="td-acciones">
+                    <button className="btn-edit">
+                      <span className="material-symbols-outlined">edit</span>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan="11" style={{ textAlign: "center", color: "#999", fontStyle: "italic" }}>
+                No hay transportes registrados. Haz clic en "AGREGAR" para agregar uno.
+              </td>
+            </tr>
           )}
-        </div>
-      )}
+        </tbody>
+      </table>
+    </div>
+  </div> 
+)}
     </>
   );
 };

@@ -136,6 +136,22 @@ background-color: #01C4E7;
   color: white;
 }
 
+textarea {
+    background-color: #1f283d;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 8px;
+    font-size: 14px;
+    resize: vertical; 
+}
+
+textarea:focus {
+    outline: none; 
+    border: none; 
+    box-shadow: none; 
+}
+
 /* 📱 Responsive solo en móviles */
 @media (max-width: 768px) {
     .operaciones-header {

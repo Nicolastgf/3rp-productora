@@ -222,7 +222,7 @@ const PersonasBody = ({ tipo }) => {
                   <td>{persona.Ubicacion || "-"}</td>
                   <td>
                     <div className="td-acciones">
-                      <Link to={`/cuentacorriente/${tipoPersona}/${persona.idPersona}`}>
+                      <Link to={`/cuentacorriente/${tipoPersona}/${persona.idPersona}`} style={{ textDecoration: 'none' }}>
                         <button className="btn-view">
                           <span className="material-symbols-outlined">
                             visibility

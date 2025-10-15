@@ -1,31 +1,33 @@
 import React, { useState, useEffect } from "react";
 import "../../styles/modal/Modal.css";
 
-const ModalForm = ({ show, config, onClose, onSubmit, datosIniciales = {} }) => {
-
+const ModalForm = ({ show, config, onClose, onSubmit, datosIniciales }) => {
   const [formData, setFormData] = useState({});
 
- 
+  // Efecto para cargar datos iniciales cuando el modal se abre
   useEffect(() => {
     if (show) {
-      console.log("recibió datos iniciales:", datosIniciales);
-      setFormData(datosIniciales);
+      console.log("📥 Cargando datos iniciales:", datosIniciales);
+      // Si hay datosIniciales, los usamos, sino objeto vacío
+      setFormData(datosIniciales || {});
     }
-  }, [show, datosIniciales]); // Se ejecuta cuando show o datosIniciales cambian
+  }, [show]); // ← Solo dependemos de 'show', no de datosIniciales
 
-  // resetear form cuando se cierra el modal
+  // Efecto para resetear cuando se cierra
   useEffect(() => {
     if (!show) {
       setFormData({});
     }
   }, [show]);
 
-
   if (!show) return null;
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    const { name, value, type, checked } = e.target;
+    setFormData({ 
+      ...formData, 
+      [name]: type === "checkbox" ? checked : value 
+    });
   };
 
   const handleSubmit = (e) => {
@@ -43,16 +45,29 @@ const ModalForm = ({ show, config, onClose, onSubmit, datosIniciales = {} }) => 
           {config.campos.map((campo) => (
             <div key={campo.name} className="form-group">
               <label>{campo.label}</label>
-              {/* Campos normales */}
-              {campo.type !== "select" && (
+              
+              {campo.type !== "select" && campo.type !== "textarea" && (
                 <input
                   type={campo.type}
                   name={campo.name}
                   value={formData[campo.name] || ""} 
                   onChange={handleChange}
                   required={campo.required}
+                  placeholder={campo.placeholder || ""}
                 />
               )}
+
+              {campo.type === "textarea" && (
+                <textarea
+                  name={campo.name}
+                  value={formData[campo.name] || ""}
+                  onChange={handleChange}
+                  required={campo.required}
+                  placeholder={campo.placeholder || ""}
+                  rows="3"
+                />
+              )}
+
               {campo.type === "select" && (
                 <select
                   name={campo.name}
@@ -62,7 +77,7 @@ const ModalForm = ({ show, config, onClose, onSubmit, datosIniciales = {} }) => 
                 >
                   <option value="">Seleccionar</option>
                   {campo.options.map((opcion) => (
-                    <option key={opcion} value={opcion.toLowerCase()}>
+                    <option key={opcion} value={opcion}>
                       {opcion}
                     </option>
                   ))}

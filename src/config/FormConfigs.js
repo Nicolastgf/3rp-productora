@@ -10,20 +10,36 @@ export const configPersona = {
     ],
 };
 
+// En FormConfigs.js
 export const configOperacion = {
     titulo: "CREAR OPERACIÓN",
     campos: [
-        { name: "fecha", label: "Fecha", type: "date", required: true },
+        { 
+            name: "FechaOperacion", 
+            label: "Fecha de Operación", 
+            type: "date", 
+            required: true 
+        },
+        { 
+            name: "Descripcion", 
+            label: "Descripción", 
+            type: "textarea", 
+            required: false 
+        },
         {
-            name: "producto",
-            label: "Producto",
+            name: "Estado",
+            label: "Estado",
             type: "select",
-            options: ["Maíz", "Soja", "Trigo", "Expeller"],
+            options: ["Pendiente", "En Proceso", "Completada", "Cancelada"],
             required: true,
         },
-        { name: "productor", label: "Productor", type: "text", required: true },
-        { name: "precioCompra", label: "Precio de compra (USD/TN)", type: "number" },
-        { name: "cargas", label: "Cargas (TN)", type: "number" },
+        { 
+            name: "idUsuario", 
+            label: "ID Usuario", 
+            type: "number", 
+            required: true,
+            default: 1
+        },
     ],
 };
 
