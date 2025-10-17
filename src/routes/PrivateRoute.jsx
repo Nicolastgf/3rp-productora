@@ -1,15 +1,15 @@
 import { Navigate } from "react-router-dom";
 
 const PrivateRoute = ({ children }) => {
-    const usuario = JSON.parse(localStorage.getItem("usuario"));
+  const usuario = JSON.parse(localStorage.getItem("usuario"));
+  const token = localStorage.getItem("token");
+  // Si no hay usuario logueado, redirige al login
+  if (!usuario || !token) {
+    return <Navigate to="/" replace />;
+  }
 
-    // Si no hay usuario logueado, redirige al login
-    if (!usuario) {
-        return <Navigate to="/" replace />;
-    }
-
-    // Si hay usuario, renderiza el contenido protegido
-    return children;
+  // Si hay usuario y token , renderiza el contenido protegido
+  return children;
 };
 
 export default PrivateRoute;

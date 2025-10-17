@@ -17,6 +17,7 @@ function Navbar() {
     // 🔹 Cerrar sesión: limpia localStorage y redirige al login
     const handleLogout = () => {
         localStorage.removeItem("usuario");
+        localStorage.removeItem("token");
         navigate("/"); // vuelve al login
     };
 

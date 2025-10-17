@@ -1,82 +1,97 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../styles/login/login.css";
 
 const Login = () => {
-    const [mail, setMail] = useState("");
-    const [password, setPassword] = useState("");
-    const [mensaje, setMensaje] = useState("");
-    const [colorMensaje, setColorMensaje] = useState("black");
+  const [mail, setMail] = useState("");
+  const [password, setPassword] = useState("");
+  const [mensaje, setMensaje] = useState("");
+  const [colorMensaje, setColorMensaje] = useState("black");
+  const navigate = useNavigate();
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+  // Si ya hay token, redirigir
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) navigate("/home", { replace: true });
+  }, [navigate]);
 
-        try {
-            const res = await fetch("http://localhost:5000/api/auth/v1/login", {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    MailUsuario: mail,
-                    PasswordUsuario: password,
-                }),
-            });
+    try {
+      const res = await fetch("http://localhost:3000/api/auth/v1/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          MailUsuario: mail,
+          PasswordUsuario: password,
+        }),
+      });
 
-            const data = await res.json();
+      const data = await res.json();
+      console.log(data);
 
-            if (res.ok) {
-                setMensaje("✅ " + data.message);
-                setColorMensaje("green");
+      if (res.ok) {
+        // Guardar token + usuario
+        if (data.token) localStorage.setItem("token", data.token);
+        if (data.usuario)
+          localStorage.setItem("usuario", JSON.stringify(data.usuario));
+        setMensaje("✅ " + data.message);
+        setColorMensaje("green");
 
-                // Guardar usuario logueado (opcional)
-                localStorage.setItem("usuario", JSON.stringify(data.usuario));
+        // Redirigir
+        setTimeout(() => {
+          navigate("/home", { replace: true });
+        }, 600);
+      } else {
+        setMensaje("⚠️ " + data.message);
+        setColorMensaje("red");
+      }
+    } catch (err) {
+      console.error(err);
+      setMensaje("Error al conectar con el servidor");
+      setColorMensaje("red");
+    }
+  };
 
-                // Redirigir después de un breve delay
-                setTimeout(() => {
-                    window.location.href = "/home"; // ajustá la ruta según tu app
-                }, 1500);
-            } else {
-                setMensaje("⚠️ " + data.message);
-                setColorMensaje("red");
-            }
-        } catch (err) {
-            console.error(err);
-            setMensaje("Error al conectar con el servidor");
-            setColorMensaje("red");
-        }
-    };
+  return (
+    <div className="login-container">
+      <h1>Iniciar Sesión</h1>
+      <form onSubmit={handleSubmit}>
+        <label>Correo electrónico</label>
+        <input
+          type="email"
+          value={mail}
+          onChange={(e) => setMail(e.target.value)}
+          placeholder="ejemplo@correo.com"
+          required
+        />
 
-    return (
-        <div className="login-container">
-            <h1>Iniciar Sesión</h1>
-            <form onSubmit={handleSubmit}>
-                <label>Correo electrónico</label>
-                <input
-                    type="email"
-                    value={mail}
-                    onChange={(e) => setMail(e.target.value)}
-                    placeholder="ejemplo@correo.com"
-                    required
-                />
+        <label>Contraseña</label>
+        <input
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="••••••••"
+          required
+        />
 
-                <label>Contraseña</label>
-                <input
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    placeholder="••••••••"
-                    required
-                />
+        <button type="submit">Ingresar</button>
+      </form>
 
-                <button type="submit">Ingresar</button>
-            </form>
-
-            {mensaje && (
-                <p style={{ marginTop: "1rem", textAlign: "center", color: colorMensaje }}>
-                    {mensaje}
-                </p>
-            )}
-        </div>
-    );
+      {mensaje && (
+        <p
+          style={{
+            marginTop: "1rem",
+            textAlign: "center",
+            color: colorMensaje,
+          }}
+        >
+          {mensaje}
+        </p>
+      )}
+    </div>
+  );
 };
 
 export default Login;
