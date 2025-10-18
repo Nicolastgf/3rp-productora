@@ -4,96 +4,47 @@ import "../../styles/modal/Modal.css";
 const ModalForm = ({ show, config, onClose, onSubmit, datosIniciales }) => {
   const [formData, setFormData] = useState({});
 
-  // Efecto para cargar datos iniciales cuando el modal se abre
   useEffect(() => {
-    if (show) {
-      console.log("📥 Cargando datos iniciales:", datosIniciales);
-      // Si hay datosIniciales, los usamos, sino objeto vacío
-      setFormData(datosIniciales || {});
-    }
-  }, [show]); // ← Solo dependemos de 'show', no de datosIniciales
-
-  // Efecto para resetear cuando se cierra
-  useEffect(() => {
-    if (!show) {
-      setFormData({});
-    }
+    if (show) setFormData(datosIniciales || {});
   }, [show]);
 
   if (!show) return null;
 
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setFormData({ 
-      ...formData, 
-      [name]: type === "checkbox" ? checked : value 
-    });
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("📤 Enviando datos del formulario:", formData);
     onSubmit(formData);
   };
 
   return (
     <div className="modal-overlay">
-      <div className="modal-container">
-        <h2 className="modal-title">{config.titulo}</h2>
-
-        <form className="modal-form" onSubmit={handleSubmit}>
+      <div className="modal-box">
+        <h3 className="modal-title">{config.titulo}</h3>
+        <form className="modal-grid" onSubmit={handleSubmit}>
           {config.campos.map((campo) => (
-            <div key={campo.name} className="form-group">
+            <div key={campo.name} className="modal-field">
               <label>{campo.label}</label>
-              
-              {campo.type !== "select" && campo.type !== "textarea" && (
-                <input
-                  type={campo.type}
-                  name={campo.name}
-                  value={formData[campo.name] || ""} 
-                  onChange={handleChange}
-                  required={campo.required}
-                  placeholder={campo.placeholder || ""}
-                />
-              )}
-
-              {campo.type === "textarea" && (
-                <textarea
-                  name={campo.name}
-                  value={formData[campo.name] || ""}
-                  onChange={handleChange}
-                  required={campo.required}
-                  placeholder={campo.placeholder || ""}
-                  rows="3"
-                />
-              )}
-
-              {campo.type === "select" && (
-                <select
-                  name={campo.name}
-                  value={formData[campo.name] || ""} 
-                  onChange={handleChange}
-                  required={campo.required}
-                >
-                  <option value="">Seleccionar</option>
-                  {campo.options.map((opcion) => (
-                    <option key={opcion} value={opcion}>
-                      {opcion}
-                    </option>
-                  ))}
-                </select>
-              )}
+              <input
+                type={campo.type}
+                name={campo.name}
+                value={formData[campo.name] || ""}
+                onChange={handleChange}
+                required={campo.required}
+                placeholder={campo.placeholder || campo.label}
+              />
             </div>
           ))}
 
-          <hr className="modal-divider" />
-
-          <div className="modal-actions">
+          <div className="modal-footer">
             <button type="button" className="btn-cancel" onClick={onClose}>
-              Cancelar
+              ✖ Cancelar
             </button>
             <button type="submit" className="btn-save">
-              Guardar
+              💾 Guardar
             </button>
           </div>
         </form>

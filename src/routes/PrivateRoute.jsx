@@ -1,14 +1,13 @@
 import { Navigate } from "react-router-dom";
+import { useAuthStore } from "../store/useAuthStore";
 
 const PrivateRoute = ({ children }) => {
-  const usuario = JSON.parse(localStorage.getItem("usuario"));
-  const token = localStorage.getItem("token");
-  // Si no hay usuario logueado, redirige al login
+  const { usuario, token } = useAuthStore();
+
   if (!usuario || !token) {
     return <Navigate to="/" replace />;
   }
 
-  // Si hay usuario y token , renderiza el contenido protegido
   return children;
 };
 

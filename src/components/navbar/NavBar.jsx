@@ -72,6 +72,7 @@ function Navbar() {
                 </div>
 
                 <NavLink to="/gastos">Gastos</NavLink>
+                <NavLink to="/caja">Caja</NavLink>
                 <NavLink to="/datos">Datos</NavLink>
 
                 {/* 🔹 Botón de cerrar sesión */}

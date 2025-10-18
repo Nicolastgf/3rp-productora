@@ -6,6 +6,10 @@ import {
 } from "react-router-dom";
 import NavBar from "./components/navbar/NavBar";
 
+// 🧠 Importamos el store global
+import { useEffect } from "react";
+import { useAuthStore } from "./store/useAuthStore";
+
 // Páginas
 import HomePage from "./pages/HamePage";
 import Operacion from "./pages/operacion/ListOperacionPage";
@@ -14,8 +18,20 @@ import Gastos from "./pages/gastos/ListGastosPage";
 import CuentaCorrientePage from "./pages/personas/CuentaCorrientePage";
 import Login from "./pages/LoginPage";
 import PrivateRoute from "./routes/PrivateRoute";
+import CajaPage from "./pages/caja/CajaPage";
 
 function App() {
+  const { setAuth } = useAuthStore();
+
+  // 🔹 Sincroniza el token/usuario guardados en localStorage con Zustand
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const usuario = JSON.parse(localStorage.getItem("usuario"));
+    if (token && usuario) {
+      setAuth(usuario, token);
+    }
+  }, [setAuth]);
+
   return (
     <Router>
       <MainContent />
@@ -66,6 +82,14 @@ const MainContent = () => {
           element={
             <PrivateRoute>
               <Gastos />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/caja"
+          element={
+            <PrivateRoute>
+              <CajaPage />
             </PrivateRoute>
           }
         />
