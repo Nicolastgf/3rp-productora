@@ -29,8 +29,7 @@ const Login = () => {
       });
 
       const data = await res.json();
-      console.log(data);
-
+      
       if (res.ok) {
         // Guardar token + usuario
         if (data.token) localStorage.setItem("token", data.token);
@@ -65,6 +64,7 @@ const Login = () => {
           onChange={(e) => setMail(e.target.value)}
           placeholder="ejemplo@correo.com"
           required
+         
         />
 
         <label>Contraseña</label>
@@ -74,6 +74,7 @@ const Login = () => {
           onChange={(e) => setPassword(e.target.value)}
           placeholder="••••••••"
           required
+          
         />
 
         <button type="submit">Ingresar</button>
