@@ -6,9 +6,8 @@ import "../../styles/modal/Modal.css";
 import "../../styles/operaciones/Operaciones.css";
 import ModalForm from "../common/ModalForm";
 
-
-const OperacionButtonAdd = ({ onOperacionAgregada }) => {
-  const [showModal, setShowModal] = useState(false);
+const OperacionesButtonExportar = () => {
+    const [showModal, setShowModal] = useState(false);
 
   const handleCrearOperacion = async (data) => {
     try {
@@ -25,7 +24,7 @@ const OperacionButtonAdd = ({ onOperacionAgregada }) => {
 
       alert("Operación creada correctamente");
       setShowModal(false);
-      onOperacionAgregada?.();
+      
     } catch (error) {
       console.error("Error al guardar operación:", error);
       if (error.response?.data?.message) {
@@ -35,12 +34,14 @@ const OperacionButtonAdd = ({ onOperacionAgregada }) => {
       }
     }
   };
-
-  return (
+   return (
     <div className="botones-agreyexpo">
 
-        <button className="btn-agregar" onClick={() => setShowModal(true)}>
-          + AGREGAR OPERACION
+        <button className="btn-exportar" style={{}}>
+          <span className="material-symbols-outlined" style={{ marginRight: "12px" }}>
+            picture_as_pdf
+          </span>
+          EXPORTAR PDF
         </button>
 
 
@@ -52,6 +53,6 @@ const OperacionButtonAdd = ({ onOperacionAgregada }) => {
       />
     </div>
   );
-};
+}
 
-export default OperacionButtonAdd;
+export default OperacionesButtonExportar

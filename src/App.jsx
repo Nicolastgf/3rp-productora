@@ -7,6 +7,8 @@ import Operacion from "./pages/operacion/ListOperacionPage";
 import Personas from "./pages/personas/ListPersonsPage";
 import Gastos from "./pages/gastos/ListGastosPage";
 import CuentaCorrientePage from "./pages/personas/CuentaCorrientePage";
+import OperacionDetalle from "./pages/operacion/OperacionDetalle";
+import AllOperaciones from "./pages/operacion/AllOperaciones";
 
 function App() {
   return (
@@ -18,6 +20,8 @@ function App() {
 
         {/* Otras rutas */}
         <Route path="/operacion" element={<Operacion />} />
+        <Route path="/operaciones/:id" element={<OperacionDetalle />} />
+        <Route path="/operaciones/detalle" element={<AllOperaciones />} />
         <Route path="/personas/:tipo" element={<Personas />} />
         <Route path="/gastos" element={<Gastos />} /> 
         <Route path="/cuentacorriente/:tipo/:idPersona" element={<CuentaCorrientePage/>} /> 

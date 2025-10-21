@@ -9,7 +9,7 @@ export const crearPersona = async (data) => {
     return response.data;
 };
 
-// 🔹 Traer todas las personas
+//  Traer todas las personas
 export const traerPersonas = async () => {
     const response = await axios.get(PERSONAS_URL);
     return response.data;
@@ -22,8 +22,19 @@ export const traerPersonasPorTipo = async (tipo) => {
     return response.data;
 };
 
+
+export const obtenerProductores = async () => {
+    const response = await axios.get(`${PERSONAS_URL}tipo/Productor`);
+    return response.data;
+};
+
 //actualizar persona
 export const actualizarPersona = async (idPersona, data) => {
     const response = await axios.put(`${PERSONAS_URL}/actualizar/${idPersona}`, data);
     return response.data;
 };
+
+export const obtenerClientes = async () => {
+    const response = await axios.get(`${PERSONAS_URL}/tipo/Cliente`);
+    return response.data;
+}

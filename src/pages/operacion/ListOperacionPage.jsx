@@ -7,36 +7,36 @@ import "../../styles/operaciones/Operaciones.css";
 import ModalForm from "../../components/common/ModalForm";
 
 const ListOperacionPage = () => {
- const [mostrarTabla, setMostrarTabla] = useState(false);
+  const [mostrarTabla, setMostrarTabla] = useState(false);
   const [modalAbierto, setModalAbierto] = useState(false);
   const [mostrarDetalle, setMostrarDetalle] = useState(false);
   const [showExportModal, setShowExportModal] = useState(false);
-  
+
   const handleVolver = () => {
     setMostrarTabla(false);
   };
-  
+
   const handleBuscar = () => {
     setMostrarTabla(true);
   };
-  
- const handleAgregarGasto = () => {
+
+  const handleAgregarGasto = () => {
     setShowExportModal(true);
   };
   const handleMostrarDetalleChange = (mostrandoDetalle) => {
     setMostrarDetalle(mostrandoDetalle);
   };
-  
+
   return (
     <div className="operaciones-page">
       <OperacionHeader />
-      {!mostrarDetalle && (
-        <OperacionButtonAdd
-          mostrarTabla={mostrarTabla}
-          onAgregarGasto={handleAgregarGasto}
-          onModalChange={setModalAbierto}
-        />
-      )}
+      <OperacionButtonAdd
+        mostrarTabla={mostrarTabla}
+        mostrarDetalle={mostrarDetalle}
+        onAgregarGasto={handleAgregarGasto}
+        onModalChange={setModalAbierto}
+      />
+
       <OperacionFilter
         onVolver={handleVolver}
         onBuscar={handleBuscar}
@@ -45,13 +45,32 @@ const ListOperacionPage = () => {
         onMostrarDetalleChange={handleMostrarDetalleChange}
       />
 
-       <ModalForm
+      <ModalForm
         show={showExportModal}
         onClose={() => setShowExportModal(false)}
-        titulo="OPERACIONES"
+        config={{
+          titulo: "OPERACIONES",
+          campos: [
+            {
+              name: "tipoExportacion",
+              label: "Tipo de exportación",
+              type: "select",
+              required: true,
+              options: [
+                { value: "pdf", label: "PDF" },
+                { value: "excel", label: "Excel" },
+              ],
+            },
+            {
+              name: "incluirDetalle",
+              label: "¿Incluir detalle?",
+              type: "checkbox",
+              required: false,
+            },
+          ],
+        }}
         onSubmit={(data) => {
           console.log("Datos para exportar:", data);
-          // Aquí tu lógica para exportar PDF
           setShowExportModal(false);
         }}
       />

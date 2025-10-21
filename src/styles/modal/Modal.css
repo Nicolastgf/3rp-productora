@@ -123,3 +123,45 @@
 .form-group select::-ms-expand {
     display: none; /* oculta flecha en IE */
 }
+
+
+.autocomplete-container {
+  position: relative;
+  width: 100%;
+}
+
+.autocomplete-container input {
+  background-color: #1f283d;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  padding: 10px;
+  font-size: 14px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.autocomplete-options {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: #1f283d;
+  border: 1px solid #3b4663;
+  border-top: none;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 1000;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+.autocomplete-option {
+  padding: 10px;
+  cursor: pointer;
+  border-bottom: 1px solid #3b4663;
+  color: white;
+}
+
+.autocomplete-option:hover {
+  background-color: #3b4663;
+}

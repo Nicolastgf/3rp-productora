@@ -10,6 +10,12 @@ export const configPersona = {
     ],
 };
 
+export const configPersonaEditar = {
+  titulo: "EDITAR PERSONA",
+  campos: configPersona.campos,
+};
+
+
 // En FormConfigs.js
 export const configOperacion = {
     titulo: "CREAR OPERACIÓN",
@@ -25,13 +31,6 @@ export const configOperacion = {
             label: "Descripción", 
             type: "textarea", 
             required: false 
-        },
-        {
-            name: "Estado",
-            label: "Estado",
-            type: "select",
-            options: ["Pendiente", "En Proceso", "Completada", "Cancelada"],
-            required: true,
         },
         { 
             name: "idUsuario", 
@@ -51,5 +50,145 @@ export const configGastos = {
         { name: "caja", label: "Caja", type: "text", required: true },
         { name: "total", label: "Total", type: "number" },
 
+    ],
+};
+
+export const configCompra = {
+    titulo: "AGREGAR COMPRA",
+    campos: [
+        { 
+            name: "IdPersona", 
+            label: "Productor", 
+            type: "select", 
+            required: true,
+            options: [] // Deberías cargar los productores desde tu backend
+        },
+        { 
+            name: "IdProducto", 
+            label: "Producto", 
+            type: "select", 
+            required: true,
+            options: [] // Deberías cargar los productos desde tu backend
+        },
+        { 
+            name: "PrecioUnitario", 
+            label: "Precio de Compra", 
+            type: "number", 
+            required: true 
+        },
+        { 
+            name: "ToneladasCompradas", 
+            label: "Cargas TN.", 
+            type: "number", 
+            required: true,
+            step: "0.01"
+        },
+        { 
+            name: "FechaCompra", 
+            label: "Fecha de Compra", 
+            type: "date", 
+            required: true 
+        },
+        { 
+            name: "Descripcion", 
+            label: "Descripción", 
+            type: "textarea", 
+            required: false 
+        },
+    ],
+};
+
+export const configVenta = {
+    titulo: "AGREGAR VENTA",
+    campos: [
+        { 
+            name: "IdPersona", 
+            label: "Cliente", 
+            type: "select", 
+            required: true,
+            options: [] 
+        },
+        { 
+            name: "PrecioUnitario", 
+            label: "Precio de Venta", 
+            type: "number", 
+            required: true 
+        },
+        { 
+            name: "ToneladasVendidas", 
+            label: "Descargas TN.", 
+            type: "number", 
+            required: true,
+            step: "0.01"
+        },
+        { 
+            name: "FechaVenta", 
+            label: "Fecha de Venta", 
+            type: "date", 
+            required: true 
+        },
+        { 
+            name: "Descripcion", 
+            label: "Descripción", 
+            type: "textarea", 
+            required: false 
+        },
+    ],
+};
+export const configTransporte = {
+    titulo: "AGREGAR TRANSPORTE",
+    campos: [
+        { 
+            name: "FechaTransporte", 
+            label: "Fecha de Salida", 
+            type: "date", 
+            required: true 
+        },
+        { 
+            name: "IdPersona", 
+            label: "Transportista", 
+            type: "select", 
+            required: true,
+            options: [] 
+        },
+        {
+            name: "NombreChofer",
+            label: "Nombre del Chofer",
+            type: "text",
+            required: true
+
+        },
+        { 
+            name: "DescargasToneladas", 
+            label: "Toneladas", 
+            type: "number", 
+            required: true,
+            step: "0.01"
+        },
+        { 
+            name: "Origen", 
+            label: "Origen", 
+            type: "textarea", 
+            required: true 
+        },
+        { 
+            name: "Destino", 
+            label: "Destino", 
+            type: "textarea", 
+            required: true 
+        },
+        { 
+            name: "Kilometros", 
+            label: "Kilometros", 
+            type: "number", 
+            required: true,
+            step: "0.01"
+        },
+        { 
+            name: "Descripcion", 
+            label: "Descripción", 
+            type: "textarea", 
+            required: false 
+        }
     ],
 };

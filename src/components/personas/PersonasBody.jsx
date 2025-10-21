@@ -4,7 +4,7 @@ import {
   traerPersonasPorTipo,
 } from "../../services/personasService";
 import ModalForm from "../common/ModalForm";
-import { configPersona } from "../../config/FormConfigs";
+import { configPersona, configPersonaEditar } from "../../config/FormConfigs";
 import "../../styles/personas/Personas.css";
 import { Link } from "react-router-dom";
 
@@ -15,7 +15,7 @@ const PersonasBody = ({ tipo }) => {
   const [valor, setValor] = useState("");
   const [showEditModal, setShowEditModal] = useState(false);
   const [personaEditando, setPersonaEditando] = useState(null);
-  const tipoPersona = tipo
+  const tipoPersona = tipo;
 
   useEffect(() => {
     const buscarPersonas = async () => {
@@ -120,18 +120,15 @@ const PersonasBody = ({ tipo }) => {
     const nuevoValor = e.target.value;
     setValor(nuevoValor);
 
-    if (nuevoValor === "") {
+    const valor = nuevoValor.trim().toLowerCase();
+    if (valor === "") {
       setPersonas(personasOriginales);
     } else {
       const personasFiltradas = personasOriginales.filter(
         (persona) =>
-          persona.NombrePersona.toLowerCase().includes(
-            nuevoValor.toLowerCase()
-          ) ||
-          persona.ApellidoPersona.toLowerCase().includes(
-            nuevoValor.toLowerCase()
-          ) ||
-          persona.DNI.includes(nuevoValor)
+          persona.NombrePersona.toLowerCase().includes(valor) ||
+          persona.ApellidoPersona.toLowerCase().includes(valor) ||
+          persona.DNI.includes(valor)
       );
       setPersonas(personasFiltradas);
     }
@@ -159,13 +156,13 @@ const PersonasBody = ({ tipo }) => {
       <div className="input-buscar">
         <input
           type="text"
-          placeholder={`Buscar ${tipo}`}
+          placeholder="Buscar por nombre, producto o transportista"
           className="input-buscari"
           name="inputBuscar"
           value={valor}
           onChange={handleChange}
-          onKeyDown={handleKeyPress}
         />
+
         <button className="btn-buscar" onClick={handleBuscar}>
           <span className="material-symbols-outlined">search</span>
         </button>
@@ -222,7 +219,10 @@ const PersonasBody = ({ tipo }) => {
                   <td>{persona.Ubicacion || "-"}</td>
                   <td>
                     <div className="td-acciones">
-                      <Link to={`/cuentacorriente/${tipoPersona}/${persona.idPersona}`} style={{ textDecoration: 'none' }}>
+                      <Link
+                        to={`/cuentacorriente/${tipoPersona}/${persona.idPersona}`}
+                        style={{ textDecoration: "none" }}
+                      >
                         <button className="btn-view">
                           <span className="material-symbols-outlined">
                             visibility
@@ -252,11 +252,8 @@ const PersonasBody = ({ tipo }) => {
 
       <ModalForm
         show={showEditModal}
-        config={{
-          ...configPersona,
-          titulo: `EDITAR ${tipo?.toUpperCase()}`,
-        }}
-        datosIniciales={getDatosIniciales()} // pasar datos de la persona
+        config={configPersonaEditar}
+        datosIniciales={getDatosIniciales()}
         onClose={() => {
           setShowEditModal(false);
           setPersonaEditando(null);

@@ -152,6 +152,63 @@ textarea:focus {
     box-shadow: none; 
 }
 
+.botones-agreyexpo {
+    width: 85%;
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+    gap: 15px;
+}
+
+.btn-agregar {
+    background-color: #3cb043;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 25px;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-agregar:hover {
+    background-color: #2e8b35;
+}
+
+/* Botón EXPORTAR PDF */
+.btn-exportar {
+    background-color: #3668F4;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 25px;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-exportar:hover {
+    background-color: #2a52c4;
+}
+
+/* Asegurar que los iconos se alineen bien */
+.btn-agregar .material-symbols-outlined,
+.btn-exportar .material-symbols-outlined {
+    margin-right: 8px;
+}
+
+.dato-header{
+    color: #00D8FF;
+}
+
 /* 📱 Responsive solo en móviles */
 @media (max-width: 768px) {
     .operaciones-header {
