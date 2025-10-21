@@ -109,12 +109,11 @@ const ModalForm = ({ show, config, onClose, onSubmit, datosIniciales }) => {
 
   return (
     <div className="modal-overlay">
-      <div className="modal-container">
-        <h2 className="modal-title">{config.titulo}</h2>
-
-        <form className="modal-form" onSubmit={handleSubmit}>
+      <div className="modal-box">
+        <h3 className="modal-title">{config.titulo}</h3>
+        <form className="modal-grid" onSubmit={handleSubmit}>
           {config.campos.map((campo) => (
-            <div key={campo.name} className="form-group">
+            <div key={campo.name} className="modal-field">
               <label>{campo.label}</label>
 
               {campo.type !== "select" && campo.type !== "textarea" && (
@@ -199,14 +198,12 @@ const ModalForm = ({ show, config, onClose, onSubmit, datosIniciales }) => {
             </div>
           ))}
 
-          <hr className="modal-divider" />
-
-          <div className="modal-actions">
+          <div className="modal-footer">
             <button type="button" className="btn-cancel" onClick={onClose}>
-              Cancelar
+              ✖ Cancelar
             </button>
             <button type="submit" className="btn-save">
-              Guardar
+              💾 Guardar
             </button>
           </div>
         </form>
@@ -216,3 +213,4 @@ const ModalForm = ({ show, config, onClose, onSubmit, datosIniciales }) => {
 };
 
 export default ModalForm;
+

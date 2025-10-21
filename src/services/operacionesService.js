@@ -1,5 +1,7 @@
 import axios from "axios";
 import { API_URL } from "../api/apiConfig";
+import { useAuthStore } from "../store/useAuthStore";
+import api from "../api/axiosConfig";
 
 // 🔹 Usar la API_URL tal como está (con / al final)
 const OPERACIONES_URL = `${API_URL}api/operaciones/v1`; 
@@ -12,8 +14,10 @@ const TRANSPORTE_URL =  `${API_URL}api/transportes/v1`
 export const traerOperacionesFiltradas = async (mes, anio) => {
     try {
         console.log(`URL completa: ${OPERACIONES_URL}/filtradas`);
+        const { token } = useAuthStore.getState();
         const response = await axios.get(`${OPERACIONES_URL}/filtradas`, {
-            params: { mes, anio }
+            params: { mes, anio },
+            headers: { Authorization: `Bearer ${token}` }
         });
         return response.data;
     } catch (error) {
@@ -25,7 +29,7 @@ export const traerOperacionesFiltradas = async (mes, anio) => {
 
 //  Traer operación completa por ID (con todos sus movimientos)
 export const traerOperacionCompleta = async (idOperacion) => {
-    const response = await axios.get(`${OPERACIONES_URL}/${idOperacion}/completa`);
+    const response = await api.get(`/operaciones/v1/${idOperacion}/completa`);
     return response.data;
 };
 
